@@ -1,0 +1,31 @@
+{
+    "name": "chobie/php-influxdb",
+    "description": "InfluxDB Client library.",
+    "keywords": ["influxdb","api"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shuhei Tanuma",
+            "homepage": "https://github.com/chobie/php-influxdb",
+            "email": "chobieeee@php.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "suggest": {
+        "symfony/console": "2.4.2"
+    },
+    "autoload": {
+        "psr-4" : {
+            "InfluxDB\\" : "src/InfluxDB"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.0-dev"
+        }
+    }
+}
