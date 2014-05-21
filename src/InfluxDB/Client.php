@@ -185,16 +185,18 @@ class Client {
         return $this->api("DELETE", "/cluster_admins/{$user}", $this->getAuth());
     }
 
-    public function query($query)
+    public function query($query, $timePrecision = 's')
     {
         $this->checkDbAndRaiseError();
+        $this->checkTimePrecisionAndRaise($timePrecision);
 
         $params = $this->getAuth();
         $params['q'] = $query;
+        $params['time_precision'] = $timePrecision;
 
         $result = $this->api("GET", "/db/{$this->dbname}/series", $params);
         if (empty($result)) {
-            throw new \Exception("result not found");
+            return new Client\SerializedSeriesCollection();
         }
 
         $c = new Client\SerializedSeriesCollection();
@@ -210,10 +212,8 @@ class Client {
         return $this->api("DELETE", "/db/{$this->dbname}/series/{$name}", $this->getAuth());
     }
 
-    public function writePoints($name, $points, $timePrecision = "")
+    protected function checkTimePrecisionAndRaise($timePrecision)
     {
-        $this->checkDbAndRaiseError();
-
         switch ($timePrecision) {
         case "u":
         case "m":
@@ -223,6 +223,12 @@ class Client {
         default:
             throw new \InvalidArgumentException(sprintf("time precision %s does not support yet", $timePrecision));
         }
+    }
+
+    public function writePoints($name, $points, $timePrecision = "s")
+    {
+        $this->checkDbAndRaiseError();
+        $this->checkTimePrecisionAndRaise($timePrecision);
 
         $params = array_merge($this->getAuth(), array("time_precision" => $timePrecision));
         $payload = array(

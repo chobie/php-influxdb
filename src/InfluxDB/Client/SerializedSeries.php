@@ -41,13 +41,13 @@ class SerializedSeries
         return $this->points[$offset];
     }
 
-    public function getAsAssoc()
+    public function toArray()
     {
         $result = array();
-        foreach ($this as $point) {
+        foreach ($this->points as $offset => $point) {
             $row = array();
-            foreach ($this->columns as $offset => $column) {
-                $row[$column] = $point[$offset];
+            foreach ($this->columns as $index => $name) {
+                $row[$name] = $point[$index];
             }
             $result[] = $row;
         }

@@ -88,4 +88,20 @@ class SerializedSeriesCollection
     {
         return count($this->collection);
     }
+
+    public function toArray()
+    {
+        if (count($this->collection) == 1) {
+            $s = $this->collection[0];
+            return $s->toArray();
+        } else if (count($this->collection) > 1) {
+            $result = array();
+            foreach ($this->collection as $series) {
+                $result[] = $series->toArray();
+            }
+            return $result;
+        } else {
+            return array();
+        }
+    }
 }

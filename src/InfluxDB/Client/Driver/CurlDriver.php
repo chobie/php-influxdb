@@ -51,7 +51,6 @@ class CurlDriver implements Driver
             $curl = $this->connect();
         }
 
-        curl_reset($curl);
         curl_setopt($curl ,CURLOPT_HTTPHEADER, array());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, 1);
@@ -79,11 +78,14 @@ class CurlDriver implements Driver
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         if ($http_method == "POST") {
             curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getContentBody());
         } else if ($http_method == "GET") {
             curl_setopt($curl, CURLOPT_HTTPGET, 1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
         } else if ($http_method == 'PUT') {
             curl_setopt($curl, CURLOPT_PUT, 1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getContentBody());
         } else if ($http_method == 'DELETE') {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
